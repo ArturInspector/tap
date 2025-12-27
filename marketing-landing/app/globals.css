@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary colors */
+  --primary-600: #0F6CBD;
+  --primary-700: #2B579A;
+  --primary-800: #002050;
+  
+  /* Gradient colors */
+  --gradient-start: #667eea;
+  --gradient-mid: #764ba2;
+  --gradient-end: #f093fb;
+  
+  /* Dark sections */
+  --dark-bg: #1F2937;
+  --dark-text: #F5F7FA;
+}
+
+@layer utilities {
+  .animate-gradient-shift {
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+  }
+  
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .btn-primary-large {
+    @apply px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg 
+           hover:bg-blue-700 transition-all duration-300 
+           transform hover:scale-105 shadow-lg hover:shadow-xl;
+  }
+  
+  .btn-secondary-large {
+    @apply px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg 
+           hover:bg-gray-100 transition-all duration-300 
+           transform hover:scale-105 shadow-lg hover:shadow-xl;
+  }
+  
+  .feature-card {
+    @apply bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl 
+           transition-all duration-300 transform-gpu
+           hover:-translate-y-2;
+  }
+}
