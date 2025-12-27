@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./platform_api.db")
+    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./data/platform_api.db")
     agent_registry_url: str = os.getenv("AGENT_REGISTRY_URL", "http://localhost:9002")
     
     allowed_origins: str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:3001")
