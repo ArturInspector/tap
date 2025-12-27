@@ -110,9 +110,35 @@ services:
       timeout: 5s
       retries: 3
 
+ # TODO: VISA SERVICES AFTER LOCAL DEV DELETE
+  platform-api:
+    build:
+      context: ./platform-api
+      dockerfile: Dockerfile
+    container_name: tap-platform-api
+    ports:
+      - "8003:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./data/platform_api.db
+      - AGENT_REGISTRY_URL=http://agent-registry:8001
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:3003
+      - LOG_LEVEL=INFO
+    volumes:
+      - platform-api-db:/app/data
+    networks:
+      - tap-network
+    depends_on:
+      - agent-registry
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
 volumes:
   agent-registry-db:
   merchant-db:
+  platform-api-db:
 
 networks:
   tap-network:
