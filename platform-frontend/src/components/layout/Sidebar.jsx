@@ -1,8 +1,9 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Plug, Settings } from 'lucide-react'
+import { LayoutDashboard, Plug, Settings, BarChart3 } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+  { name: 'Аналитика', path: '/analytics', icon: BarChart3 },
   { name: 'Интеграции', path: '/integrations', icon: Plug },
   { name: 'Настройки', path: '/settings', icon: Settings },
 ]

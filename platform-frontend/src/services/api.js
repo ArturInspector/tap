@@ -29,6 +29,34 @@ export const platformAPI = {
       params: filters
     })
     return response.data
+  },
+
+  // Orders with AI tracking
+  getOrders: async (merchantId, filters = {}) => {
+    const response = await axios.get(`${API_BASE}/orders/${merchantId}`, {
+      params: {
+        ...filters,
+        include_agent: true,
+        include_platform: true
+      }
+    })
+    return response.data
+  },
+
+  // Agent statistics
+  getAgentStats: async (merchantId, dateRange = '7d') => {
+    const response = await axios.get(`${API_BASE}/analytics/${merchantId}/agents`, {
+      params: { date_range: dateRange }
+    })
+    return response.data
+  },
+
+  // Platform statistics
+  getPlatformStats: async (merchantId, dateRange = '7d') => {
+    const response = await axios.get(`${API_BASE}/analytics/${merchantId}/platforms`, {
+      params: { date_range: dateRange }
+    })
+    return response.data
   }
 }
 
