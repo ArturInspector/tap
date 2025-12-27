@@ -1,0 +1,120 @@
+version: '3.8'
+
+services:
+  # Agent Registry Service
+  agent-registry:
+    build:
+      context: ./agent-registry
+      dockerfile: Dockerfile
+    container_name: tap-agent-registry
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+    volumes:
+      - agent-registry-db:/app/data
+    networks:
+      - tap-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Merchant Backend API
+  merchant-backend:
+    build:
+      context: ./merchant-backend
+      dockerfile: Dockerfile
+    container_name: tap-merchant-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:3003
+    volumes:
+      - merchant-db:/app/data
+    networks:
+      - tap-network
+    depends_on:
+      - agent-registry
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Merchant Frontend (React/Vite)
+  merchant-frontend:
+    build:
+      context: ./merchant-frontend
+      dockerfile: Dockerfile
+    container_name: tap-merchant-frontend
+    ports:
+      - "3001:3001"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+      - VITE_CDN_PROXY_URL=http://localhost:3002
+    networks:
+      - tap-network
+    depends_on:
+      - merchant-backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # CDN Proxy (Node.js)
+  cdn-proxy:
+    build:
+      context: ./cdn-proxy
+      dockerfile: Dockerfile
+    container_name: tap-cdn-proxy
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - AGENT_REGISTRY_URL=http://agent-registry:8001
+      - NODE_ENV=production
+    networks:
+      - tap-network
+    depends_on:
+      - agent-registry
+      - merchant-backend
+      - merchant-frontend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/test-proxy"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # TAP Agent (Streamlit)
+  tap-agent:
+    build:
+      context: ./tap-agent
+      dockerfile: Dockerfile
+    container_name: tap-agent-app
+    ports:
+      - "8501:8501"
+    environment:
+      - AGENT_REGISTRY_URL=http://agent-registry:8001
+    volumes:
+      - ./tap-agent/.env:/app/.env:ro
+    networks:
+      - tap-network
+    depends_on:
+      - agent-registry
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  agent-registry-db:
+  merchant-db:
+
+networks:
+  tap-network:
+    driver: bridge
+
