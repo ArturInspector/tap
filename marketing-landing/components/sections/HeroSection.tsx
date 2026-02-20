@@ -28,7 +28,7 @@ export default function HeroSection() {
             className="mb-6"
           >
             <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
-              VISA: Trusted Agent Protocol для вашего бизнеса
+              VISA: Trusted Agent Protocol для бизнеса в Кыргызстане
             </span>
           </motion.div>
           
@@ -59,7 +59,7 @@ export default function HeroSection() {
             className="text-xl md:text-2xl mb-6 text-blue-100 max-w-3xl mx-auto"
           >
             Автоматическая интеграция с <a href="https://github.com/visa/trusted-agent-protocol" target="_blank" rel="noopener noreferrer" className="underline hover:text-white font-semibold transition-colors">VISA TAP протоколом</a> за 5 минут.
-            Выходите на рынки Центральной Азии и глобальные рынки без технических сложностей.
+            Выходите на глобальные рынки из Кыргызстана без технических сложностей.
           </motion.p>
           
           <motion.div
