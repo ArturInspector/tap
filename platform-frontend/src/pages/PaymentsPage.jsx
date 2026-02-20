@@ -49,8 +49,8 @@ export default function PaymentsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-900">Payments</h1>
-          <p className="text-neutral-600 mt-1">Balance and transaction management</p>
+          <h1 className="text-2xl font-bold text-neutral-900">Платежи</h1>
+          <p className="text-neutral-600 mt-1">Управление балансом и транзакциями</p>
         </div>
       </div>
 

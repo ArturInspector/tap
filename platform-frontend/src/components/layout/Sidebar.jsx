@@ -2,8 +2,8 @@ import { NavLink } from 'react-router-dom'
 import { LayoutDashboard, Wallet } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-  { name: 'Payments', path: '/payments', icon: Wallet },
+  { name: 'Дашборд', path: '/dashboard', icon: LayoutDashboard },
+  { name: 'Платежи', path: '/payments', icon: Wallet },
 ]
 
 export default function Sidebar() {

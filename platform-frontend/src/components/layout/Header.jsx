@@ -2,7 +2,8 @@ import { Bell, Search } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 
 const pageTitles = {
-  '/dashboard': { title: 'Dashboard', subtitle: 'Обзор метрик и последних заказов' },
+  '/dashboard': { title: 'Дашборд', subtitle: 'Обзор метрик и последних заказов' },
+  '/payments': { title: 'Платежи', subtitle: 'История транзакций и выплат' },
   '/analytics': { title: 'Аналитика', subtitle: 'Детальная статистика по заказам и агентам' },
   '/integrations': { title: 'Интеграции', subtitle: 'Управление платформами и TAP Protocol' },
   '/settings': { title: 'Настройки', subtitle: 'Профиль и конфигурация' },

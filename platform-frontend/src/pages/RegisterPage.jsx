@@ -44,13 +44,13 @@ export default function RegisterPage() {
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-neutral-900 mb-2">TAPay</h1>
-          <p className="text-neutral-600">Merchant Registration</p>
+          <p className="text-neutral-600">Регистрация мерчанта</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">
-              Store Name
+              Название магазина
             </label>
             <input
               type="text"
@@ -58,7 +58,7 @@ export default function RegisterPage() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-              placeholder="My Store"
+              placeholder="Мой Магазин"
             />
           </div>
 
@@ -78,7 +78,7 @@ export default function RegisterPage() {
 
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">
-              Domain (optional)
+              Домен (опционально)
             </label>
             <input
               type="text"
@@ -91,14 +91,14 @@ export default function RegisterPage() {
 
           <div>
             <label className="block text-sm font-medium text-neutral-700 mb-1">
-              Phone (optional)
+              Телефон (опционально)
             </label>
             <input
               type="text"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
-              placeholder="+1234567890"
+              placeholder="+996 555 123 456"
             />
           </div>
 
@@ -113,7 +113,7 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full bg-primary-600 text-white py-3 rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? 'Регистрация...' : 'Зарегистрироваться'}
           </button>
         </form>
       </div>

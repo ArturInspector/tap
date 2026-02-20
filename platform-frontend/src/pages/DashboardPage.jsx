@@ -42,7 +42,7 @@ export default function DashboardPage() {
 
   const metrics = [
     { 
-      label: 'Daily AI Transactions', 
+      label: 'Транзакции за сегодня', 
       value: transactions.length.toString(), 
       change: tapVerifiedCount > 0 ? `${Math.round((tapVerifiedCount / transactions.length) * 100)}% Verified` : '0%',
       trend: 'up',
@@ -50,7 +50,7 @@ export default function DashboardPage() {
       gradient: 'from-blue-500 to-blue-600'
     },
     { 
-      label: 'Active AI Agents', 
+      label: 'Активные AI агенты', 
       value: '3', 
       change: 'ChatGPT, Claude, Alexa',
       trend: 'neutral',
@@ -58,15 +58,15 @@ export default function DashboardPage() {
       gradient: 'from-purple-500 to-purple-600'
     },
     { 
-      label: 'Time Saved', 
-      value: '12h', 
-      change: 'vs manual',
+      label: 'Сэкономлено времени', 
+      value: '12ч', 
+      change: 'по сравнению с ручным',
       trend: 'up',
       icon: TrendingUp, 
       gradient: 'from-green-500 to-green-600'
     },
     { 
-      label: 'Daily Revenue', 
+      label: 'Выручка за сегодня', 
       value: '$' + totalVolume.toFixed(0), 
       change: (balance?.available_kgs?.toFixed(0) || '0') + ' KGS',
       trend: 'up',
@@ -116,7 +116,7 @@ export default function DashboardPage() {
       {/* Recent Transactions */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-semibold text-neutral-900">Recent Transactions</h3>
+          <h3 className="text-xl font-semibold text-neutral-900">Последние транзакции</h3>
         </div>
         <TransactionList transactions={transactions.slice(0, 10)} loading={loading} />
       </div>
