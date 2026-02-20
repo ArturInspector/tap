@@ -1,10 +1,39 @@
-import { useState } from 'react'
-import { Calendar, Filter, Download, Bot, Store, TrendingUp } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Calendar, Filter, Download, Bot, Store, TrendingUp, DollarSign, Shield, ArrowRightLeft } from 'lucide-react'
+import { platformAPI } from '../services/api'
+
+const MERCHANT_ID = 1 // TODO: Get from auth context
 
 export default function AnalyticsPage() {
   const [dateRange, setDateRange] = useState('7d')
   const [selectedPlatform, setSelectedPlatform] = useState('all')
   const [selectedAgent, setSelectedAgent] = useState('all')
+  const [transactionAnalytics, setTransactionAnalytics] = useState(null)
+  const [transactions, setTransactions] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadAnalytics()
+  }, [dateRange])
+
+  const loadAnalytics = async () => {
+    try {
+      setLoading(true)
+      const days = dateRange === '7d' ? 7 : dateRange === '30d' ? 30 : dateRange === '90d' ? 90 : 365
+      
+      const [analyticsData, transactionsData] = await Promise.all([
+        platformAPI.getTransactionAnalytics(MERCHANT_ID, days),
+        platformAPI.getTransactions({ merchant_id: MERCHANT_ID, limit: 100 })
+      ])
+      
+      setTransactionAnalytics(analyticsData)
+      setTransactions(transactionsData.transactions || [])
+    } catch (error) {
+      console.error('Failed to load analytics:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   // Mock data - в реальности будет из API
   const ordersData = [
@@ -165,55 +194,115 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="card">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm text-neutral-600">Всего заказов</p>
-            <TrendingUp className="text-primary-600" size={20} />
+      {/* Fintech Stats Cards */}
+      {transactionAnalytics && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">Всего транзакций</p>
+              <TrendingUp className="text-primary-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">
+              {transactionAnalytics.stats?.total_transactions || 0}
+            </p>
+            <p className="text-sm text-neutral-600 mt-1">
+              {transactionAnalytics.stats?.transaction_types?.payments || 0} платежей •{' '}
+              {transactionAnalytics.stats?.transaction_types?.withdrawals || 0} выводов
+            </p>
           </div>
-          <p className="text-3xl font-bold text-neutral-900">{stats.total}</p>
-          <p className="text-sm text-neutral-600 mt-1">
-            {stats.aiOrders} AI • {stats.webOrders} Web
-          </p>
-        </div>
 
-        <div className="card">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm text-neutral-600">Общая выручка</p>
-            <TrendingUp className="text-success-600" size={20} />
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">Объем (USD)</p>
+              <DollarSign className="text-success-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">
+              ${parseFloat(transactionAnalytics.stats?.total_volume_usd || 0).toFixed(0)}
+            </p>
+            <p className="text-sm text-neutral-600 mt-1">
+              Комиссии: ${parseFloat(transactionAnalytics.stats?.total_fees || 0).toFixed(2)}
+            </p>
           </div>
-          <p className="text-3xl font-bold text-neutral-900">${stats.totalRevenue}</p>
-          <p className="text-sm text-neutral-600 mt-1">
-            ${stats.aiRevenue} AI • ${stats.webRevenue} Web
-          </p>
-        </div>
 
-        <div className="card">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm text-neutral-600">AI заказы</p>
-            <Bot className="text-purple-600" size={20} />
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">TAP Verified</p>
+              <Shield className="text-purple-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">
+              {transactionAnalytics.stats?.tap_verified?.count || 0}
+            </p>
+            <p className="text-sm text-success-600 mt-1">
+              {parseFloat(transactionAnalytics.stats?.tap_verified?.percentage || 0).toFixed(1)}% от всех
+            </p>
           </div>
-          <p className="text-3xl font-bold text-neutral-900">{stats.aiOrders}</p>
-          <p className="text-sm text-success-600 mt-1">
-            {stats.total > 0 ? Math.round((stats.aiOrders / stats.total) * 100) : 0}% от всех
-          </p>
-        </div>
 
-        <div className="card">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-sm text-neutral-600">AI выручка</p>
-            <Bot className="text-orange-600" size={20} />
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">Конверсия USD→KGS</p>
+              <ArrowRightLeft className="text-orange-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">
+              {parseFloat(transactionAnalytics.stats?.currency_conversion?.total_converted_kgs || 0).toFixed(0)} KGS
+            </p>
+            <p className="text-sm text-neutral-600 mt-1">
+              Курс: {parseFloat(transactionAnalytics.stats?.currency_conversion?.average_rate || 0).toFixed(2)}
+            </p>
           </div>
-          <p className="text-3xl font-bold text-neutral-900">${stats.aiRevenue}</p>
-          <p className="text-sm text-success-600 mt-1">
-            {stats.totalRevenue > 0
-              ? Math.round((stats.aiRevenue / stats.totalRevenue) * 100)
-              : 0}
-            % от общей
-          </p>
         </div>
-      </div>
+      )}
+
+      {/* Legacy Stats Cards (fallback) */}
+      {!transactionAnalytics && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">Всего заказов</p>
+              <TrendingUp className="text-primary-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">{stats.total}</p>
+            <p className="text-sm text-neutral-600 mt-1">
+              {stats.aiOrders} AI • {stats.webOrders} Web
+            </p>
+          </div>
+
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">Общая выручка</p>
+              <TrendingUp className="text-success-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">${stats.totalRevenue}</p>
+            <p className="text-sm text-neutral-600 mt-1">
+              ${stats.aiRevenue} AI • ${stats.webRevenue} Web
+            </p>
+          </div>
+
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">AI заказы</p>
+              <Bot className="text-purple-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">{stats.aiOrders}</p>
+            <p className="text-sm text-success-600 mt-1">
+              {stats.total > 0 ? Math.round((stats.aiOrders / stats.total) * 100) : 0}% от всех
+            </p>
+          </div>
+
+          <div className="card">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-sm text-neutral-600">AI выручка</p>
+              <Bot className="text-orange-600" size={20} />
+            </div>
+            <p className="text-3xl font-bold text-neutral-900">${stats.aiRevenue}</p>
+            <p className="text-sm text-success-600 mt-1">
+              {stats.totalRevenue > 0
+                ? Math.round((stats.aiRevenue / stats.totalRevenue) * 100)
+                : 0}
+              % от общей
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Agent Stats */}
       {Object.keys(agentStats).length > 0 && (

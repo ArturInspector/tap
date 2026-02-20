@@ -1,19 +1,17 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Plug, Settings, BarChart3 } from 'lucide-react'
+import { LayoutDashboard, Wallet } from 'lucide-react'
 
 const navigation = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-  { name: 'Аналитика', path: '/analytics', icon: BarChart3 },
-  { name: 'Интеграции', path: '/integrations', icon: Plug },
-  { name: 'Настройки', path: '/settings', icon: Settings },
+  { name: 'Payments', path: '/payments', icon: Wallet },
 ]
 
 export default function Sidebar() {
   return (
     <aside className="w-64 bg-white border-r border-neutral-100 flex flex-col">
       <div className="p-6 border-b border-neutral-100">
-        <h1 className="text-xl font-bold text-neutral-900">TAP Platform</h1>
-        <p className="text-sm text-neutral-600 mt-1">Admin Panel</p>
+        <h1 className="text-xl font-bold text-neutral-900">TAPay</h1>
+        <p className="text-sm text-neutral-600 mt-1">Payment Gateway</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
