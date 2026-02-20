@@ -33,16 +33,16 @@ export default function HeroSection() {
           </motion.div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Продавайте через<br />
+            Внедряйте AI платежи в<br />
             <TypeAnimation
               sequence={[
-                'Shopify',
+                'ежедневный обиход',
                 2000,
-                'Amazon',
+                'кафе и рестораны',
                 2000,
-                'AI агентов',
+                'доставку еды',
                 2000,
-                'WooCommerce',
+                'онлайн магазины',
                 2000,
               ]}
               wrapper="span"
@@ -58,8 +58,8 @@ export default function HeroSection() {
             transition={{ delay: 0.4 }}
             className="text-xl md:text-2xl mb-6 text-blue-100 max-w-3xl mx-auto"
           >
-            Автоматическая интеграция с <a href="https://github.com/visa/trusted-agent-protocol" target="_blank" rel="noopener noreferrer" className="underline hover:text-white font-semibold transition-colors">VISA TAP протоколом</a> за 5 минут.
-            Выходите на глобальные рынки из Кыргызстана без технических сложностей.
+            Автоматическая интеграция с <a href="https://github.com/visa/trusted-agent-protocol" target="_blank" rel="noopener noreferrer" className="underline hover:text-white font-semibold transition-colors">VISA TAP протоколом</a>.
+            Делайте платежи невидимыми и удобными для клиентов в Кыргызстане.
           </motion.p>
           
           <motion.div
@@ -87,7 +87,10 @@ export default function HeroSection() {
             transition={{ delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
-            <button className="btn-primary-large flex items-center gap-2 group">
+            <button 
+              className="btn-primary-large flex items-center gap-2 group"
+              onClick={() => window.location.href = process.env.NEXT_PUBLIC_PLATFORM_URL || 'https://platform-frontend.vercel.app/register'}
+            >
               Начать бесплатно
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
