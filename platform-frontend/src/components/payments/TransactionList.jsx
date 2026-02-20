@@ -61,9 +61,12 @@ export default function TransactionList({ transactions = [], loading = false }) 
   }
 
   return (
-    <div className="card">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-semibold text-neutral-900">Транзакции</h3>
+    <div className="card border-0 shadow-lg ring-1 ring-black/5">
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-neutral-100">
+        <h3 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
+          Транзакции
+          <span className="px-2 py-1 bg-neutral-100 text-neutral-600 text-xs rounded-full">{transactions.length}</span>
+        </h3>
         <div className="flex items-center gap-2">
           <Filter size={18} className="text-neutral-400" />
           <select
@@ -88,7 +91,7 @@ export default function TransactionList({ transactions = [], loading = false }) 
           {filteredTransactions.map((transaction) => (
             <div
               key={transaction.id}
-              className="p-4 border border-neutral-100 rounded-lg hover:border-primary-600/50 hover:shadow-sm transition-all"
+              className="p-5 border border-neutral-100 rounded-xl hover:border-primary-200 hover:bg-neutral-50/50 hover:shadow-md transition-all duration-200 group"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">

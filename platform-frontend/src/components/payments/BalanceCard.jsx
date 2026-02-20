@@ -21,8 +21,9 @@ export default function BalanceCard({ balance, loading = false }) {
   return (
     <div className="space-y-4">
       {/* Main Balance Card */}
-      <div className="card-gradient relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+    <div className="card-gradient relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/20 rounded-full -ml-10 -mb-10 blur-2xl"></div>
         <div className="relative z-10">
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 bg-white/20 rounded-lg backdrop-blur-sm">

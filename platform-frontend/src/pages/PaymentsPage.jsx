@@ -12,11 +12,7 @@ export default function PaymentsPage() {
 
   useEffect(() => {
     const storedId = localStorage.getItem('merchant_id')
-    if (storedId) {
-      setMerchantId(parseInt(storedId))
-    } else {
-      window.location.href = '/register'
-    }
+    setMerchantId(storedId ? parseInt(storedId) : 1)
   }, [])
 
   useEffect(() => {

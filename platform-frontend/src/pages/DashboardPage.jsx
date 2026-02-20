@@ -12,7 +12,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const storedId = localStorage.getItem('merchant_id')
-    if (storedId) setMerchantId(parseInt(storedId))
+    setMerchantId(storedId ? parseInt(storedId) : 1)
 
     loadData()
     const interval = setInterval(loadData, 3000)
