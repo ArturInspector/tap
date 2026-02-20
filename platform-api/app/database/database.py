@@ -23,7 +23,7 @@ def get_db() -> Generator[Session, None, None]:
 
 def init_db():
     import app.models.merchant
-    import app.models.integration
-    import app.models.analytics
+    import app.models.transaction
+    import app.models.payment
     Base.metadata.create_all(bind=engine)
 
