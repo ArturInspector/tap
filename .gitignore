@@ -1,3 +1,6 @@
+# Vercel
+.vercel
+
 # IDE specific files:
 .idea
 *.iml
