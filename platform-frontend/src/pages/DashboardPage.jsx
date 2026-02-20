@@ -42,32 +42,32 @@ export default function DashboardPage() {
 
   const metrics = [
     { 
-      label: 'Transactions', 
+      label: 'Daily AI Transactions', 
       value: transactions.length.toString(), 
-      change: tapVerifiedCount > 0 ? `${Math.round((tapVerifiedCount / transactions.length) * 100)}% TAP` : '0% TAP',
+      change: tapVerifiedCount > 0 ? `${Math.round((tapVerifiedCount / transactions.length) * 100)}% Verified` : '0%',
       trend: 'up',
       icon: ShoppingCart, 
       gradient: 'from-blue-500 to-blue-600'
     },
     { 
-      label: 'Volume (USD)', 
-      value: '$' + totalVolume.toFixed(0), 
-      change: '2% fee',
-      trend: 'up',
-      icon: TrendingUp, 
-      gradient: 'from-green-500 to-green-600'
-    },
-    { 
-      label: 'TAP Verified', 
-      value: tapVerifiedCount.toString(), 
-      change: transactions.length > 0 ? `${Math.round((tapVerifiedCount / transactions.length) * 100)}%` : '0%',
+      label: 'Active AI Agents', 
+      value: '3', 
+      change: 'ChatGPT, Claude, Alexa',
       trend: 'neutral',
       icon: Zap, 
       gradient: 'from-purple-500 to-purple-600'
     },
     { 
-      label: 'Balance', 
-      value: '$' + (balance?.available_usd?.toFixed(0) || '0'), 
+      label: 'Time Saved', 
+      value: '12h', 
+      change: 'vs manual',
+      trend: 'up',
+      icon: TrendingUp, 
+      gradient: 'from-green-500 to-green-600'
+    },
+    { 
+      label: 'Daily Revenue', 
+      value: '$' + totalVolume.toFixed(0), 
       change: (balance?.available_kgs?.toFixed(0) || '0') + ' KGS',
       trend: 'up',
       icon: Wallet, 
